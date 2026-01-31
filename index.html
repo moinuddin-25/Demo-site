@@ -1,0 +1,1892 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Motolock - উন্নত গাড়ি নিরাপত্তা সিস্টেম</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --neon-green: #00FF66;
+            --electric-green: #1AFF7A;
+            --deep-black: #0B0F0E;
+            --dark-charcoal: #151919;
+            --carbon-gray: #1F2421;
+            --soft-glow: rgba(0, 255, 102, 0.15);
+            --lime-highlight: #39FF8F;
+            --white: #FFFFFF;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background: var(--deep-black);
+            color: var(--white);
+            overflow-x: hidden;
+            line-height: 1.6;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(11, 15, 14, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0, 255, 102, 0.1);
+            z-index: 1000;
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 900;
+            font-size: 1.5rem;
+            color: var(--neon-green);
+        }
+
+        .logo svg {
+            color: var(--neon-green);
+            filter: drop-shadow(0 0 10px rgba(0, 255, 102, 0.5));
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2.5rem;
+        }
+
+        .nav-menu a {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-menu a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--neon-green);
+            transition: width 0.3s ease;
+            box-shadow: 0 0 10px var(--neon-green);
+        }
+
+        .nav-menu a:hover {
+            color: var(--neon-green);
+        }
+
+        .nav-menu a:hover::after {
+            width: 100%;
+        }
+
+        .cta-button {
+            background: transparent;
+            color: var(--neon-green);
+            border: 2px solid var(--neon-green);
+            padding: 0.7rem 1.8rem;
+            border-radius: 8px;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 700;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-button:hover {
+            background: var(--neon-green);
+            color: var(--deep-black);
+            box-shadow: 0 0 30px rgba(0, 255, 102, 0.6);
+            transform: translateY(-2px);
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 8rem 2rem 4rem;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        .grid-overlay {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 255, 102, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 102, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: gridMove 20s linear infinite;
+        }
+
+        @keyframes gridMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+
+        .energy-streaks {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(45deg, transparent 30%, rgba(0, 255, 102, 0.05) 50%, transparent 70%),
+                linear-gradient(-45deg, transparent 30%, rgba(0, 255, 102, 0.05) 50%, transparent 70%);
+            background-size: 200% 200%;
+            animation: energyFlow 15s ease-in-out infinite;
+        }
+
+        @keyframes energyFlow {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .glow-orb {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.15;
+            animation: orbFloat 20s ease-in-out infinite;
+        }
+
+        .glow-orb-1 {
+            background: radial-gradient(circle, var(--neon-green), transparent);
+            top: -200px;
+            right: -100px;
+        }
+
+        .glow-orb-2 {
+            background: radial-gradient(circle, var(--electric-green), transparent);
+            bottom: -200px;
+            left: -100px;
+            animation-delay: -10s;
+        }
+
+        @keyframes orbFloat {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(50px, -50px) scale(1.1); }
+        }
+
+        .hero-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(0, 255, 102, 0.1);
+            border: 1px solid var(--neon-green);
+            color: var(--neon-green);
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            margin-bottom: 2rem;
+            box-shadow: 0 0 20px rgba(0, 255, 102, 0.2);
+        }
+
+        .hero-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 4rem;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+        }
+
+        .glitch-text {
+            position: relative;
+            display: inline-block;
+        }
+
+        .highlight-text {
+            color: var(--neon-green);
+            text-shadow: 
+                0 0 10px rgba(0, 255, 102, 0.5),
+                0 0 20px rgba(0, 255, 102, 0.3),
+                0 0 30px rgba(0, 255, 102, 0.2);
+            animation: glow 2s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% { 
+                text-shadow: 
+                    0 0 10px rgba(0, 255, 102, 0.5),
+                    0 0 20px rgba(0, 255, 102, 0.3),
+                    0 0 30px rgba(0, 255, 102, 0.2);
+            }
+            50% { 
+                text-shadow: 
+                    0 0 20px rgba(0, 255, 102, 0.8),
+                    0 0 30px rgba(0, 255, 102, 0.5),
+                    0 0 40px rgba(0, 255, 102, 0.3);
+            }
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 3rem;
+            line-height: 1.8;
+            max-width: 600px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .primary-btn,
+        .secondary-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .primary-btn {
+            background: var(--neon-green);
+            color: var(--deep-black);
+        }
+
+        .primary-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 40px rgba(0, 255, 102, 0.4);
+        }
+
+        .glow-btn {
+            box-shadow: 0 0 20px rgba(0, 255, 102, 0.3);
+        }
+
+        .glow-btn:hover {
+            box-shadow: 0 0 40px rgba(0, 255, 102, 0.6);
+        }
+
+        .secondary-btn {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--white);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        .secondary-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--neon-green);
+            transform: translateY(-3px);
+        }
+
+        .primary-btn svg,
+        .secondary-btn svg {
+            transition: transform 0.3s ease;
+        }
+
+        .primary-btn:hover svg {
+            transform: translateX(5px);
+        }
+
+        /* Hero Visual */
+        .hero-visual {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .car-interface {
+            position: relative;
+            width: 400px;
+            height: 400px;
+        }
+
+        .scan-line {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 100%;
+            background: linear-gradient(to bottom, transparent, var(--neon-green), transparent);
+            animation: scan 3s linear infinite;
+        }
+
+        @keyframes scan {
+            0% { top: 0; opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { top: 100%; opacity: 0; }
+        }
+
+        .hud-circle {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            margin: 50px auto;
+        }
+
+        .hud-circle svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .pulse-ring {
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; transform: scale(1.05); }
+        }
+
+        .car-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .car-icon svg {
+            filter: drop-shadow(0 0 10px rgba(0, 255, 102, 0.5));
+            animation: none;
+        }
+
+        .status-indicator {
+            position: absolute;
+            bottom: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 255, 102, 0.1);
+            border: 1px solid var(--neon-green);
+            color: var(--neon-green);
+            padding: 0.5rem 1.5rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            box-shadow: 0 0 20px rgba(0, 255, 102, 0.2);
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 3rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--neon-green);
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            font-weight: 600;
+        }
+
+        .scroll-line {
+            width: 2px;
+            height: 40px;
+            background: linear-gradient(to bottom, var(--neon-green), transparent);
+            animation: scrollMove 2s ease-in-out infinite;
+        }
+
+        @keyframes scrollMove {
+            0%, 100% { transform: translateY(0); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateY(20px); }
+        }
+
+        /* Features Section */
+        .features {
+            padding: 8rem 2rem;
+            position: relative;
+            background: linear-gradient(to bottom, var(--deep-black), var(--dark-charcoal));
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 5rem;
+        }
+
+        .section-tag {
+            display: inline-block;
+            color: var(--neon-green);
+            font-size: 0.9rem;
+            font-weight: 700;
+            letter-spacing: 3px;
+            margin-bottom: 1rem;
+        }
+
+        .section-header h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3rem;
+            font-weight: 900;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+        }
+
+        .section-header p {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .features-grid {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 255, 102, 0.1);
+            border-radius: 20px;
+            padding: 3rem 2rem;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, var(--neon-green), transparent, var(--neon-green));
+            border-radius: 20px;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: -1;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--neon-green);
+            box-shadow: 0 20px 60px rgba(0, 255, 102, 0.2);
+        }
+
+        .feature-card:hover::before {
+            opacity: 0.1;
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 255, 102, 0.05);
+            border-radius: 15px;
+            border: 1px solid rgba(0, 255, 102, 0.2);
+        }
+
+        .feature-icon svg {
+            color: var(--neon-green);
+            filter: drop-shadow(0 0 10px rgba(0, 255, 102, 0.3));
+        }
+
+        .feature-card h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--white);
+        }
+
+        .feature-card p {
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.8;
+            margin-bottom: 2rem;
+        }
+
+        .feature-stats {
+            display: flex;
+            gap: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(0, 255, 102, 0.1);
+        }
+
+        .stat {
+            flex: 1;
+        }
+
+        .stat-value {
+            display: block;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--neon-green);
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.5);
+            letter-spacing: 1px;
+        }
+
+        /* Technology Section */
+        .technology {
+            padding: 8rem 2rem;
+            background: var(--dark-charcoal);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tech-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5rem;
+            align-items: center;
+        }
+
+        .tech-visual {
+            position: relative;
+            height: 500px;
+        }
+
+        .tech-layers {
+            position: relative;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+        }
+
+        .tech-layer {
+            position: relative;
+            background: rgba(0, 255, 102, 0.03);
+            border: 1px solid rgba(0, 255, 102, 0.2);
+            border-radius: 15px;
+            padding: 1.5rem;
+            backdrop-filter: blur(5px);
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateX(-50px);
+        }
+
+        @keyframes layerFloat {
+            0%, 100% { transform: translateX(0); }
+            50% { transform: translateX(10px); }
+        }
+
+        .tech-layer:hover {
+            background: rgba(0, 255, 102, 0.08);
+            border-color: var(--neon-green);
+            box-shadow: 0 10px 40px rgba(0, 255, 102, 0.2);
+        }
+
+        .layer-content {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: var(--neon-green);
+        }
+
+        .tech-connections {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .connection-line {
+            position: absolute;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--neon-green), transparent);
+            opacity: 0.3;
+            animation: dataFlow 2s ease-in-out infinite;
+        }
+
+        .line-1 {
+            left: 20%;
+            height: 25%;
+            top: 20%;
+            animation-delay: 0s;
+        }
+
+        .line-2 {
+            left: 50%;
+            height: 30%;
+            top: 35%;
+            animation-delay: 0.7s;
+        }
+
+        .line-3 {
+            left: 80%;
+            height: 20%;
+            top: 55%;
+            animation-delay: 1.4s;
+        }
+
+        @keyframes dataFlow {
+            0% { opacity: 0; transform: translateY(-20px); }
+            50% { opacity: 0.5; }
+            100% { opacity: 0; transform: translateY(20px); }
+        }
+
+        .tech-content h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin-bottom: 1.5rem;
+            line-height: 1.3;
+        }
+
+        .tech-description {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 3rem;
+            line-height: 1.8;
+        }
+
+        .tech-specs {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+   .spec-item {
+            display: flex;
+            gap: 1.5rem;
+            align-items: flex-start;
+        }
+
+        .spec-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(0, 255, 102, 0.05);
+            border: 1px solid rgba(0, 255, 102, 0.2);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .spec-icon svg {
+            color: var(--neon-green);
+        }
+
+        .spec-text h4 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: var(--white);
+        }
+
+        .spec-text p {
+            color: rgba(255, 255, 255, 0.6);
+            line-height: 1.6;
+        }
+
+        /* Products Section */
+        .products {
+            padding: 8rem 2rem;
+            background: linear-gradient(to bottom, var(--dark-charcoal), var(--deep-black));
+        }
+
+        .products-grid {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 3rem;
+        }
+
+        .product-card {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 255, 102, 0.1);
+            border-radius: 25px;
+            padding: 3rem 2rem;
+            text-align: center;
+            transition: all 0.4s ease;
+            position: relative;
+            opacity: 0;
+            transform: translateY(40px);
+        }
+
+        .product-card.featured {
+            border-color: var(--neon-green);
+            box-shadow: 0 0 40px rgba(0, 255, 102, 0.2);
+        }
+
+        .featured-badge {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--neon-green);
+            color: var(--deep-black);
+            padding: 0.5rem 1.5rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 900;
+            letter-spacing: 2px;
+        }
+
+        .product-card:hover {
+            transform: translateY(-15px);
+            border-color: var(--neon-green);
+            box-shadow: 0 30px 80px rgba(0, 255, 102, 0.3);
+        }
+
+        .product-image {
+            position: relative;
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: center;
+        }
+
+        .product-glow {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(circle, rgba(0, 255, 102, 0.2), transparent);
+            border-radius: 50%;
+            filter: blur(40px);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: productGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes productGlow {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.5; }
+            50% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.8; }
+        }
+
+        .product-info h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .product-info p {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .product-price {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3rem;
+            font-weight: 900;
+            color: var(--neon-green);
+            margin-bottom: 2rem;
+        }
+
+        .product-btn {
+            width: 100%;
+            padding: 1rem 2rem;
+            background: transparent;
+            border: 2px solid var(--neon-green);
+            color: var(--neon-green);
+            border-radius: 10px;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-btn:hover {
+            background: var(--neon-green);
+            color: var(--deep-black);
+            box-shadow: 0 0 30px rgba(0, 255, 102, 0.5);
+        }
+
+        .product-btn.glow-btn {
+            background: var(--neon-green);
+            color: var(--deep-black);
+            box-shadow: 0 0 20px rgba(0, 255, 102, 0.3);
+        }
+
+        .product-btn.glow-btn:hover {
+            box-shadow: 0 0 40px rgba(0, 255, 102, 0.6);
+            transform: translateY(-2px);
+        }
+
+        /* Stats Section */
+        .stats {
+            padding: 6rem 2rem;
+            background: var(--deep-black);
+            position: relative;
+        }
+
+        .stats::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(45deg, transparent 48%, rgba(0, 255, 102, 0.02) 50%, transparent 52%),
+                linear-gradient(-45deg, transparent 48%, rgba(0, 255, 102, 0.02) 50%, transparent 52%);
+            background-size: 100px 100px;
+        }
+
+        .stats-grid {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            position: relative;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(0, 255, 102, 0.03);
+            border: 1px solid rgba(0, 255, 102, 0.1);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            border-color: var(--neon-green);
+            box-shadow: 0 10px 40px rgba(0, 255, 102, 0.2);
+            transform: translateY(-5px);
+        }
+
+        .stat-number {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 4rem;
+            font-weight: 900;
+            color: var(--neon-green);
+            text-shadow: 0 0 30px rgba(0, 255, 102, 0.5);
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.7);
+            letter-spacing: 2px;
+            font-weight: 600;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 8rem 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .cta-grid {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 255, 102, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 102, 0.1) 1px, transparent 1px);
+            background-size: 30px 30px;
+        }
+
+        .cta-glow {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(0, 255, 102, 0.15), transparent);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            filter: blur(80px);
+        }
+
+        .cta-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-content h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3rem;
+            font-weight: 900;
+            margin-bottom: 1.5rem;
+            line-height: 1.3;
+        }
+
+        .cta-content p {
+            font-size: 1.3rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 3rem;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .large {
+            padding: 1.2rem 3rem;
+            font-size: 1.1rem;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--dark-charcoal);
+            padding: 4rem 2rem 2rem;
+            border-top: 1px solid rgba(0, 255, 102, 0.1);
+        }
+
+        .footer-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 3fr;
+            gap: 4rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-brand p {
+            color: rgba(255, 255, 255, 0.6);
+            margin-top: 1rem;
+            line-height: 1.8;
+        }
+
+        .footer-links {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 3rem;
+        }
+
+        .footer-col h4 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--neon-green);
+            letter-spacing: 1px;
+        }
+
+        .footer-col a {
+            display: block;
+            color: rgba(255, 255, 255, 0.6);
+            text-decoration: none;
+            margin-bottom: 0.75rem;
+            transition: all 0.3s ease;
+        }
+
+        .footer-col a:hover {
+            color: var(--neon-green);
+            padding-left: 10px;
+        }
+
+        .footer-bottom {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(0, 255, 102, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-bottom p {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.9rem;
+        }
+
+        .footer-legal {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .footer-legal a {
+            color: rgba(255, 255, 255, 0.5);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-legal a:hover {
+            color: var(--neon-green);
+        }
+
+        /* Animations */
+        @keyframes ripple {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+
+        @keyframes cardGlow {
+            0%, 100% {
+                box-shadow: 0 0 0 rgba(0, 255, 102, 0);
+            }
+            50% {
+                box-shadow: 0 0 30px rgba(0, 255, 102, 0.3);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .hero-content,
+            .tech-container {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .hero-title {
+                font-size: 3rem;
+            }
+
+            .nav-menu {
+                display: none;
+            }
+
+            .footer-container {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .section-header h2 {
+                font-size: 2rem;
+            }
+
+            .features-grid,
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-links {
+                grid-template-columns: 1fr;
+            }
+
+            .cta-content h2 {
+                font-size: 2rem;
+            }
+
+            .hero-buttons,
+            .cta-buttons {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .primary-btn,
+            .secondary-btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+          </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <svg width="40" height="40" viewBox="0 0 40 40">
+                    <path d="M20 2 L38 12 L38 28 L20 38 L2 28 L2 12 Z" fill="none" stroke="currentColor" stroke-width="2"/>
+                    <circle cx="20" cy="20" r="8" fill="none" stroke="currentColor" stroke-width="2"/>
+                    <circle cx="20" cy="20" r="3" fill="currentColor"/>
+                </svg>
+                <span>মোটোলক</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#home">হোম</a></li>
+                <li><a href="#features">ফিচারসমূহ</a></li>
+                <li><a href="#technology">প্রযুক্তি</a></li>
+                <li><a href="#products">পণ্য</a></li>
+                <li><a href="#contact">যোগাযোগ</a></li>
+            </ul>
+            <button class="cta-button">শুরু করুন</button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-bg">
+            <div class="grid-overlay"></div>
+            <div class="energy-streaks"></div>
+            <div class="glow-orb glow-orb-1"></div>
+            <div class="glow-orb glow-orb-2"></div>
+        </div>
+        <div class="hero-content">
+            <div class="hero-text">
+                <div class="badge">পরবর্তী প্রজন্মের নিরাপত্তা</div>
+                <h1 class="hero-title">
+                    গাড়ির নিরাপত্তার<br/>
+                    <span class="glitch-text" data-text="ভবিষ্যৎ">ভবিষ্যৎ</span><br/>
+                    <span class="highlight-text">এখানে</span>
+                </h1>
+                <p class="hero-subtitle">এআই-চালিত নিরাপত্তা সিস্টেম, রিয়েল-টাইম ট্র্যাকিং, বায়োমেট্রিক অ্যাক্সেস এবং আধুনিক ড্রাইভারদের জন্য স্বায়ত্তশাসিত হুমকি সনাক্তকরণ।</p>
+                <div class="hero-buttons">
+                    <button class="primary-btn glow-btn">
+                        <span>সিস্টেম দেখুন</span>
+                        <svg width="20" height="20" viewBox="0 0 20 20">
+                            <path d="M5 10 L15 10 M10 5 L15 10 L10 15" fill="none" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                    </button>
+                    <button class="secondary-btn">
+                        <svg width="20" height="20" viewBox="0 0 20 20">
+                            <circle cx="10" cy="10" r="8" fill="none" stroke="currentColor" stroke-width="2"/>
+                            <path d="M8 7 L13 10 L8 13 Z" fill="currentColor"/>
+                        </svg>
+                        <span>ডেমো দেখুন</span>
+                    </button>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="car-interface">
+                    <div class="scan-line"></div>
+                    <div class="hud-circle">
+                        <svg width="300" height="300" viewBox="0 0 300 300">
+                            <circle cx="150" cy="150" r="140" fill="none" stroke="#00FF66" stroke-width="1" opacity="0.2"/>
+                            <circle cx="150" cy="150" r="120" fill="none" stroke="#00FF66" stroke-width="1" opacity="0.3"/>
+                            <circle cx="150" cy="150" r="100" fill="none" stroke="#00FF66" stroke-width="2" opacity="0.5"/>
+                            <circle cx="150" cy="150" r="80" fill="none" stroke="#00FF66" stroke-width="2" class="pulse-ring"/>
+                        </svg>
+                        <div class="car-icon">
+                            <svg width="80" height="60" viewBox="0 0 80 60">
+                                <path d="M10 35 L15 20 L25 15 L55 15 L65 20 L70 35 L75 40 L75 50 L5 50 L5 40 Z" fill="none" stroke="#00FF66" stroke-width="2"/>
+                                <circle cx="20" cy="50" r="6" fill="none" stroke="#00FF66" stroke-width="2"/>
+                                <circle cx="60" cy="50" r="6" fill="none" stroke="#00FF66" stroke-width="2"/>
+                                <path d="M25 20 L30 20 L33 25 L43 25 L47 20 L55 20" fill="none" stroke="#00FF66" stroke-width="2"/>
+                            </svg>
+                        </div>
+                        <div class="status-indicator">সুরক্ষিত</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <div class="scroll-line"></div>
+            <span>স্ক্রল করুন</span>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="section-header">
+            <span class="section-tag">ক্ষমতা</span>
+            <h2>উন্নত সুরক্ষা ফিচার</h2>
+            <p>সামরিক-গ্রেড নিরাপত্তা বুদ্ধিমান অটোমেশনের সাথে মিলিত</p>
+        </div>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg width="60" height="60" viewBox="0 0 60 60">
+                        <circle cx="30" cy="30" r="25" fill="none" stroke="currentColor" stroke-width="2"/>
+                        <path d="M30 10 L30 30 L45 30" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                </div>
+                <h3>রিয়েল-টাইম ট্র্যাকিং</h3>
+                <p>১-মিটার নির্ভুলতা সহ জিপিএস। ৫ সেকেন্ডে লাইভ আপডেট সহ যেকোনো স্থানে আপনার যানবাহন ট্র্যাক করুন।</p>
+                <div class="feature-stats">
+                    <div class="stat">
+                        <span class="stat-value" data-target="99.9">0</span><span class="stat-value">%</span>
+                        <span class="stat-label">চলমান</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-value" data-target="5">0</span><span class="stat-value">সেকেন্ড</span>
+                        <span class="stat-label">আপডেট</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg width="60" height="60" viewBox="0 0 60 60">
+                        <path d="M30 5 L30 25 M15 15 L30 25 L45 15" stroke="currentColor" stroke-width="2" fill="none"/>
+                        <ellipse cx="30" cy="35" rx="20" ry="10" fill="none" stroke="currentColor" stroke-width="2"/>
+                        <path d="M30 35 L30 50 M25 50 L35 50" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                </div>
+                <h3>বায়োমেট্রিক অ্যাক্সেস</h3>
+                <p>এআই লার্নিং সহ ফিঙ্গারপ্রিন্ট এবং ফেসিয়াল রিকগনিশন। অননুমোদিত অ্যাক্সেস তাত্ক্ষণিক সতর্কতা ট্রিগার করে।</p>
+                <div class="feature-stats">
+                    <div class="stat">
+                        <span class="stat-value" data-target="0.1">0</span><span class="stat-value">সেকেন্ড</span>
+                        <span class="stat-label">সনাক্তকরণ</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-value" data-target="100">0</span><span class="stat-value">%</span>
+                        <span class="stat-label">সুরক্ষিত</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg width="60" height="60" viewBox="0 0 60 60">
+                        <rect x="10" y="15" width="40" height="30" rx="5" fill="none" stroke="currentColor" stroke-width="2"/>
+                        <circle cx="30" cy="30" r="8" fill="none" stroke="currentColor" stroke-width="2"/>
+                        <circle cx="30" cy="30" r="4" fill="currentColor"/>
+                        <path d="M20 10 L20 15 M40 10 L40 15 M20 45 L20 50 M40 45 L40 50" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                </div>
+                <h3>৩৬০° সার্ভিলেন্স</h3>
+                <p>নাইট ভিশন এবং মোশন ডিটেকশন সহ মাল্টি-ক্যামেরা সিস্টেম। ঘটনার আগেই এআই হুমকি শনাক্ত করে।</p>
+                <div class="feature-stats">
+                    <div class="stat">
+                        <span class="stat-value" data-target="4">4</span><span class="stat-value">K</span>
+                        <span class="stat-label">গুণমান</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-value" data-target="24">24/7</span>
+                        <span class="stat-label">সক্রিয়</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg width="60" height="60" viewBox="0 0 60 60">
+                        <path d="M30 10 L50 20 L50 40 L30 50 L10 40 L10 20 Z" fill="none" stroke="currentColor" stroke-width="2"/>
+                        <path d="M25 30 L28 34 L36 24" stroke="currentColor" stroke-width="2" fill="none"/>
+                    </svg>
+                </div>
+                <h3>এআই হুমকি সনাক্তকরণ</h3>
+                <p>মেশিন লার্নিং অ্যালগরিদম ৯৮.৭% নির্ভুলতার সাথে প্যাটার্ন বিশ্লেষণ করে এবং নিরাপত্তা ঝুঁকি ভবিষ্যদ্বাণী করে।</p>
+                <div class="feature-stats">
+                    <div class="stat">
+                        <span class="stat-value" data-target="98.7">0</span><span class="stat-value">%</span>
+                        <span class="stat-label">নির্ভুলতা</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-value">এআই</span>
+                        <span class="stat-label">চালিত</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technology Section -->
+    <section class="technology" id="technology">
+        <div class="tech-container">
+            <div class="tech-visual">
+                <div class="tech-layers">
+                    <div class="tech-layer layer-1">
+                        <div class="layer-content">হার্ডওয়্যার লেয়ার</div>
+                    </div>
+                    <div class="tech-layer layer-2">
+                        <div class="layer-content">সংযোগ লেয়ার</div>
+                    </div>
+                    <div class="tech-layer layer-3">
+                        <div class="layer-content">এআই প্রসেসিং লেয়ার</div>
+                    </div>
+                    <div class="tech-layer layer-4">
+                        <div class="layer-content">অ্যাপ্লিকেশন লেয়ার</div>
+                    </div>
+                </div>
+                <div class="tech-connections">
+                    <div class="connection-line line-1"></div>
+                    <div class="connection-line line-2"></div>
+                    <div class="connection-line line-3"></div>
+                </div>
+            </div>
+            <div class="tech-content">
+                <span class="section-tag">অবকাঠামো</span>
+                <h2>মাল্টি-লেয়ার নিরাপত্তা আর্কিটেকচার</h2>
+                <p class="tech-description">আমাদের মালিকানাধীন নিরাপত্তা স্ট্যাক ক্লাউড-ভিত্তিক এআই প্রসেসিংয়ের সাথে অত্যাধুনিক হার্ডওয়্যারকে একত্রিত করে অতুলনীয় সুরক্ষা প্রদান করে।</p>
+                
+                <div class="tech-specs">
+                    <div class="spec-item">
+                        <div class="spec-icon">
+                            <svg width="30" height="30" viewBox="0 0 30 30">
+                                <rect x="5" y="5" width="20" height="20" rx="3" fill="none" stroke="currentColor" stroke-width="2"/>
+                                <path d="M10 15 L20 15 M15 10 L15 20" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                        </div>
+                        <div class="spec-text">
+                            <h4>কোয়ান্টাম এনক্রিপশন</h4>
+                            <p>কোয়ান্টাম-প্রতিরোধী অ্যালগরিদম সহ ২৫৬-বিট এন্ড-টু-এন্ড এনক্রিপশন</p>
+                        </div>
+                    </div>
+                    
+                    <div class="spec-item">
+                        <div class="spec-icon">
+                            <svg width="30" height="30" viewBox="0 0 30 30">
+                                <circle cx="15" cy="15" r="10" fill="none" stroke="currentColor" stroke-width="2"/>
+                                <path d="M15 5 L15 15 L20 20" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                        </div>
+                        <div class="spec-text">
+                            <h4>এজ কম্পিউটিং</h4>
+                            <p>ক্লাউড ব্যাকআপ সহ তাৎক্ষণিক প্রতিক্রিয়ার জন্য স্থানীয় প্রক্রিয়াকরণ</p>
+                        </div>
+                    </div>
+                    
+                    <div class="spec-item">
+                        <div class="spec-icon">
+                            <svg width="30" height="30" viewBox="0 0 30 30">
+                                <path d="M15 3 L27 10 L27 20 L15 27 L3 20 L3 10 Z" fill="none" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                        </div>
+                        <div class="spec-text">
+                            <h4>নিউরাল নেটওয়ার্ক</h4>
+                            <p>স্ব-শিক্ষণ এআই আপনার আচরণের ধরণগুলির সাথে খাপ খায়</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="products" id="products">
+        <div class="section-header">
+            <span class="section-tag">হার্ডওয়্যার</span>
+            <h2>নিরাপত্তা ডিভাইস</h2>
+            <p>সম্পূর্ণ গাড়ি সুরক্ষার জন্য পেশাদার-গ্রেড সরঞ্জাম</p>
+        </div>
+        <div class="products-grid">
+            <div class="product-card">
+                <div class="product-image">
+                    <div class="product-glow"></div>
+                    <svg width="200" height="200" viewBox="0 0 200 200">
+                        <rect x="40" y="60" width="120" height="80" rx="10" fill="#0B0F0E" stroke="#00FF66" stroke-width="2"/>
+                        <circle cx="100" cy="100" r="20" fill="none" stroke="#00FF66" stroke-width="2"/>
+                        <circle cx="100" cy="100" r="12" fill="#00FF66" opacity="0.3"/>
+                        <path d="M60 80 L140 80 M60 120 L140 120" stroke="#00FF66" stroke-width="1" opacity="0.3"/>
+                    </svg>
+                </div>
+                <div class="product-info">
+                    <h3>মোটোলক হাব</h3>
+                    <p>৫জি সংযোগ এবং এআই চিপ সহ কেন্দ্রীয় প্রক্রিয়াকরণ ইউনিট</p>
+                    <div class="product-price">৳৪৯,৯৯৯</div>
+                    <button class="product-btn">কনফিগার করুন</button>
+                </div>
+            </div>
+
+            <div class="product-card featured">
+                <div class="featured-badge">সবচেয়ে জনপ্রিয়</div>
+                <div class="product-image">
+                    <div class="product-glow"></div>
+                    <svg width="200" height="200" viewBox="0 0 200 200">
+                        <rect x="50" y="50" width="100" height="100" rx="15" fill="#0B0F0E" stroke="#00FF66" stroke-width="3"/>
+                        <circle cx="100" cy="100" r="30" fill="none" stroke="#00FF66" stroke-width="2"/>
+                        <path d="M85 100 L95 110 L115 85" stroke="#00FF66" stroke-width="3" fill="none"/>
+                        <circle cx="70" cy="70" r="3" fill="#00FF66"/>
+                        <circle cx="130" cy="70" r="3" fill="#00FF66"/>
+                        <circle cx="70" cy="130" r="3" fill="#00FF66"/>
+                        <circle cx="130" cy="130" r="3" fill="#00FF66"/>
+                    </svg>
+                </div>
+                <div class="product-info">
+                    <h3>সম্পূর্ণ সিস্টেম</h3>
+                    <p>সমস্ত সেন্সর, ক্যামেরা এবং মনিটরিং সহ সম্পূর্ণ নিরাপত্তা স্যুট</p>
+                    <div class="product-price">৳১,০৯,৯৯৯</div>
+                    <button class="product-btn glow-btn">শুরু করুন</button>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">
+                    <div class="product-glow"></div>
+                    <svg width="200" height="200" viewBox="0 0 200 200">
+                        <circle cx="100" cy="100" r="50" fill="#0B0F0E" stroke="#00FF66" stroke-width="2"/>
+                        <circle cx="100" cy="100" r="35" fill="none" stroke="#00FF66" stroke-width="1" opacity="0.3"/>
+                        <path d="M100 65 L100 85 M100 115 L100 135 M65 100 L85 100 M115 100 L135 100" stroke="#00FF66" stroke-width="2"/>
+                        <circle cx="100" cy="100" r="10" fill="#00FF66"/>
+                    </svg>
+                </div>
+                <div class="product-info">
+                    <h3>স্মার্ট সেন্সর</h3>
+                    <p>ইমপ্যাক্ট, মোশন এবং প্রক্সিমিটি ডিটেকশন ওয়্যারলেস সিঙ্ক সহ</p>
+                    <div class="product-price">৳২৪,৯৯৯</div>
+                    <button class="product-btn">আরও জানুন</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number" data-target="150">0</div>
+                <div class="stat-label">সুরক্ষিত গাড়ি (হাজার)</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" data-target="99.8">0</div>
+                <div class="stat-label">সাফল্যের হার %</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" data-target="24">0</div>
+                <div class="stat-label">সক্রিয় দেশ</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" data-target="5">0</div>
+                <div class="stat-label">বছর ওয়্যারেন্টি</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section" id="contact">
+        <div class="cta-bg">
+            <div class="cta-grid"></div>
+            <div class="cta-glow"></div>
+        </div>
+        <div class="cta-content">
+            <h2>আপনার গাড়ি সুরক্ষিত করতে প্রস্তুত?</h2>
+            <p>চূড়ান্ত সুরক্ষার জন্য মোটোলকে বিশ্বাস করা হাজার হাজার ড্রাইভারের সাথে যোগ দিন</p>
+            <div class="cta-buttons">
+                <button class="primary-btn glow-btn large">
+                    <span>ট্রায়াল শুরু করুন</span>
+                    <svg width="24" height="24" viewBox="0 0 24 24">
+                        <path d="M5 12 L19 12 M14 7 L19 12 L14 17" fill="none" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                </button>
+                <button class="secondary-btn large">
+                    <span>সেলসের সাথে যোগাযোগ</span>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <div class="logo">
+                    <svg width="40" height="40" viewBox="0 0 40 40">
+                        <path d="M20 2 L38 12 L38 28 L20 38 L2 28 L2 12 Z" fill="none" stroke="currentColor" stroke-width="2"/>
+                        <circle cx="20" cy="20" r="8" fill="none" stroke="currentColor" stroke-width="2"/>
+                        <circle cx="20" cy="20" r="3" fill="currentColor"/>
+                    </svg>
+                    <span>মোটোলক</span>
+                </div>
+                <p>আধুনিক বিশ্বের জন্য উন্নত গাড়ি নিরাপত্তা</p>
+            </div>
+           <div class="footer-links">
+                <div class="footer-col">
+                    <h4>পণ্য</h4>
+                    <a href="#">ফিচারসমূহ</a>
+                    <a href="#">প্রযুক্তি</a>
+                    <a href="#">মূল্য</a>
+                    <a href="#">নিরাপত্তা</a>
+                </div>
+                <div class="footer-col">
+                    <h4>কোম্পানি</h4>
+                    <a href="#">সম্পর্কে</a>
+                    <a href="#">ক্যারিয়ার</a>
+                    <a href="#">প্রেস</a>
+                    <a href="#">যোগাযোগ</a>
+                </div>
+                <div class="footer-col">
+                    <h4>সহায়তা</h4>
+                    <a href="#">ডকুমেন্টেশন</a>
+                    <a href="#">সহায়তা কেন্দ্র</a>
+                    <a href="#">কমিউনিটি</a>
+                    <a href="#">স্ট্যাটাস</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; ২০২৬ মোটোলক। সর্বস্বত্ব সংরক্ষিত।</p>
+            <div class="footer-legal">
+                <a href="#">গোপনীয়তা নীতি</a>
+                <a href="#">সেবার শর্তাবলী</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Animated counter for stats
+        function animateCounter(element, target, suffix = '') {
+            const duration = 2000;
+            const start = 0;
+            const increment = target / (duration / 16);
+            let current = start;
+            
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    element.textContent = target + suffix;
+                    clearInterval(timer);
+                } else {
+                    element.textContent = Math.floor(current) + suffix;
+                }
+            }, 16);
+        }
+
+        // Intersection Observer for stats animation
+        const statsObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const statNumbers = entry.target.querySelectorAll('.stat-number');
+                    statNumbers.forEach(stat => {
+                        const target = parseFloat(stat.getAttribute('data-target'));
+                        const suffix = stat.textContent.includes('%') ? '%' : '';
+                        animateCounter(stat, target, suffix);
+                    });
+                    statsObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        const statsSection = document.querySelector('.stats');
+        if (statsSection) {
+            statsObserver.observe(statsSection);
+        }
+
+        // Parallax effect for hero elements
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const heroVisual = document.querySelector('.hero-visual');
+            const heroText = document.querySelector('.hero-text');
+            
+            if (heroVisual && scrolled < window.innerHeight) {
+                heroVisual.style.transform = `translateY(${scrolled * 0.3}px)`;
+            }
+            
+            if (heroText && scrolled < window.innerHeight) {
+                heroText.style.transform = `translateY(${scrolled * 0.15}px)`;
+            }
+        });
+
+        // Glitch effect for text
+        function createGlitchEffect() {
+            const glitchText = document.querySelector('.glitch-text');
+            if (!glitchText) return;
+            
+            setInterval(() => {
+                if (Math.random() > 0.95) {
+                    glitchText.style.transform = `translate(${Math.random() * 4 - 2}px, ${Math.random() * 4 - 2}px)`;
+                    
+                    setTimeout(() => {
+                        glitchText.style.transform = 'translate(0, 0)';
+                    }, 50);
+                }
+            }, 100);
+        }
+
+        createGlitchEffect();
+
+        // Feature cards stagger animation
+        const featureObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }, index * 100);
+                    featureObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.2 });
+
+        document.querySelectorAll('.feature-card').forEach(card => {
+            card.style.transition = 'all 0.6s ease';
+            featureObserver.observe(card);
+        });
+
+        // Product cards animation
+        const productObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }, index * 150);
+                    productObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.2 });
+
+        document.querySelectorAll('.product-card').forEach(card => {
+            card.style.transition = 'all 0.7s ease';
+            productObserver.observe(card);
+        });
+
+        // Tech layers animation
+        const techObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const layers = entry.target.querySelectorAll('.tech-layer');
+                    layers.forEach((layer, index) => {
+                        setTimeout(() => {
+                            layer.style.opacity = '1';
+                            layer.style.transform = 'translateX(0)';
+                        }, index * 200);
+                    });
+                    techObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.3 });
+
+        const techLayers = document.querySelector('.tech-layers');
+        if (techLayers) {
+            document.querySelectorAll('.tech-layer').forEach(layer => {
+                layer.style.transition = 'all 0.6s ease';
+            });
+            techObserver.observe(techLayers);
+        }
+
+        // Add hover effect to buttons
+        document.querySelectorAll('button').forEach(button => {
+            button.addEventListener('mouseenter', function() {
+                this.style.transition = 'all 0.3s ease';
+            });
+        });
+
+        // Navbar scroll effect
+        let lastScroll = 0;
+        const navbar = document.querySelector('.navbar');
+
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset;
+            
+            if (currentScroll > 100) {
+                navbar.style.background = 'rgba(11, 15, 14, 0.95)';
+                navbar.style.boxShadow = '0 10px 40px rgba(0, 255, 102, 0.1)';
+            } else {
+                navbar.style.background = 'rgba(11, 15, 14, 0.8)';
+                navbar.style.boxShadow = 'none';
+            }
+            
+            lastScroll = currentScroll;
+        });
+
+        // Add ripple effect to buttons
+        document.querySelectorAll('button').forEach(button => {
+            button.addEventListener('click', function(e) {
+                const ripple = document.createElement('span');
+                const rect = this.getBoundingClientRect();
+                const size = Math.max(rect.width, rect.height);
+                const x = e.clientX - rect.left - size / 2;
+                const y = e.clientY - rect.top - size / 2;
+                
+                ripple.style.width = ripple.style.height = size + 'px';
+                ripple.style.left = x + 'px';
+                ripple.style.top = y + 'px';
+                ripple.style.position = 'absolute';
+                ripple.style.borderRadius = '50%';
+                ripple.style.background = 'rgba(0, 255, 102, 0.5)';
+                ripple.style.transform = 'scale(0)';
+                ripple.style.animation = 'ripple 0.6s ease-out';
+                ripple.style.pointerEvents = 'none';
+                
+                this.style.position = 'relative';
+                this.style.overflow = 'hidden';
+                this.appendChild(ripple);
+                
+                setTimeout(() => ripple.remove(), 600);
+            });
+        });
+
+        // Hero visual pulse animation
+        const hudCircle = document.querySelector('.hud-circle');
+        if (hudCircle) {
+            setInterval(() => {
+                const statusIndicator = document.querySelector('.status-indicator');
+                if (statusIndicator) {
+                    statusIndicator.style.animation = 'none';
+                    setTimeout(() => {
+                        statusIndicator.style.animation = 'pulse 2s ease-in-out infinite';
+                    }, 10);
+                }
+            }, 5000);
+        }
+
+        // Add glow effect to cards on scroll
+        const cardObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animation = 'cardGlow 2s ease-in-out';
+                }
+            });
+        }, { threshold: 0.5 });
+
+        document.querySelectorAll('.feature-card, .product-card').forEach(card => {
+            cardObserver.observe(card);
+        });
+
+        // Loading animation
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.body.style.opacity = '1';
+            }, 100);
+        });
+
+        // Add typing effect to hero subtitle
+        const subtitle = document.querySelector('.hero-subtitle');
+        if (subtitle) {
+            const originalText = subtitle.textContent;
+            subtitle.textContent = '';
+            let index = 0;
+            
+            const typeWriter = () => {
+                if (index < originalText.length) {
+                    subtitle.textContent += originalText.charAt(index);
+                    index++;
+                    setTimeout(typeWriter, 30);
+                }
+            };
+            
+            setTimeout(typeWriter, 500);
+        }
+
+        // CTA section entrance animation
+        const ctaObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const ctaContent = entry.target.querySelector('.cta-content');
+                    if (ctaContent) {
+                        ctaContent.style.opacity = '0';
+                        ctaContent.style.transform = 'translateY(30px)';
+                        setTimeout(() => {
+                            ctaContent.style.transition = 'all 0.8s ease';
+                            ctaContent.style.opacity = '1';
+                            ctaContent.style.transform = 'translateY(0)';
+                        }, 200);
+                    }
+                    ctaObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.3 });
+
+        const ctaSection = document.querySelector('.cta-section');
+        if (ctaSection) {
+            ctaObserver.observe(ctaSection);
+        }
+
+        console.log('%c মোটোলক নিরাপত্তা সিস্টেম সক্রিয় ', 'background: #00FF66; color: #0B0F0E; font-size: 14px; font-weight: bold; padding: 10px;');
+        console.log('%c উন্নত সুরক্ষা সক্রিয় ', 'background: #0B0F0E; color: #00FF66; font-size: 12px; padding: 5px; border: 1px solid #00FF66;');
+
+        // Feature card stats animation
+        const featureStatsObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const statValues = entry.target.querySelectorAll('.stat-value[data-target]');
+                    statValues.forEach(stat => {
+                        const target = parseFloat(stat.getAttribute('data-target'));
+                        const suffix = stat.nextElementSibling ? stat.nextElementSibling.textContent : '';
+                        animateCounter(stat, target, suffix);
+                    });
+                }
+            });
+        }, { threshold: 0.5 });
+
+        document.querySelectorAll('.feature-card').forEach(card => {
+            featureStatsObserver.observe(card);
+        });
+    </script>
+</body>
+</html>
